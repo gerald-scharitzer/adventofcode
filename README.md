@@ -1,2 +1,2 @@
 # adventofcode
-Advent of Code solutions in Rust
+[Advent of Code](https://adventofcode.com/) solutions in Rust
