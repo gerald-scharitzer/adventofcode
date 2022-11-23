@@ -17,6 +17,16 @@ fn day1() {
 	let file = File::open("day1.in").expect("open input failed");
 	let mut reader = BufReader::new(file);
 	let mut line = String::new();
+	let mut floor: i32 = 0;
 	reader.read_line(&mut line).expect("read line failed");
-	println!("{line}");
+	let chars = line.chars();
+	for char in chars {
+		match char {
+			'(' => floor += 1,
+			')' => floor -= 1,
+			' ' => break,
+			_ => break
+		}
+	}
+	println!("floor {floor}");
 }
