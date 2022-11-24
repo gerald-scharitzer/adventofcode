@@ -17,7 +17,7 @@ impl<'a> Puzzle<'a> {
     pub fn get_name(&self) -> &str { self.name }
 }
 
-pub fn day1part1() -> Result<(), String> {
+pub fn day1part1() -> Result<i32, String> {
 	let puzzle = Puzzle::new(2015, 1, "Not Quite Lisp");
 	let year = puzzle.get_year();
 	let day = puzzle.get_day();
@@ -29,7 +29,8 @@ pub fn day1part1() -> Result<(), String> {
 	let mut floor: i32 = 0;
 	reader.read_line(&mut line).expect("read line failed");
 	let chars = line.chars();
-	let mut result = Ok(());
+	let mut result = Ok(0);
+
 	for char in chars {
 		match char {
 			'(' => floor += 1,
@@ -37,11 +38,15 @@ pub fn day1part1() -> Result<(), String> {
 			_ => { result = Err(format!("invalid character")); break }
 		}
 	}
+
 	println!("floor {floor}");
-	result
+    match result {
+        Ok(_) => Ok(floor),
+        _ => result
+    }
 }
 
-pub fn day1part2() -> Result<(), String> {
+pub fn day1part2() -> Result<i32, String> {
 	println!("Part Two");
 	let file = File::open("day1.in").expect("open input failed");
 	let mut reader = BufReader::new(file);
@@ -49,7 +54,7 @@ pub fn day1part2() -> Result<(), String> {
 	let mut floor: i32 = 0;
 	reader.read_line(&mut line).expect("read line failed");
 	let chars = line.chars();
-	let mut result = Ok(());
+	let mut result = Ok(0);
 	let mut basement = false;
 	let mut position: i32 = 0;
 	for char in chars {
@@ -66,5 +71,8 @@ pub fn day1part2() -> Result<(), String> {
 		}
 	}
 	println!("position {position}");
-	result
+    match result {
+        Ok(_) => Ok(position),
+        _ => result
+    }
 }
