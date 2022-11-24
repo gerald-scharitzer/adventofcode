@@ -5,10 +5,13 @@ use std::io::{BufRead, BufReader};
 
 fn main() {
     println!("Advent of Code");
-	day1();
+	match day1() {
+		Err(message) => println!("Error: {message}"),
+		_ => {}
+	}
 }
 
-fn day1() {
+fn day1() -> Result<(), String> {
 	let puzzle = Puzzle::new(2015, 1, "Not Quite Lisp");
 	let year = puzzle.get_year();
 	let day = puzzle.get_day();
@@ -20,13 +23,14 @@ fn day1() {
 	let mut floor: i32 = 0;
 	reader.read_line(&mut line).expect("read line failed");
 	let chars = line.chars();
+	let mut result = Ok(());
 	for char in chars {
 		match char {
 			'(' => floor += 1,
 			')' => floor -= 1,
-			' ' => break,
-			_ => break
+			_ => { result = Err(format!("invalid character")); break }
 		}
 	}
 	println!("floor {floor}");
+	result
 }
