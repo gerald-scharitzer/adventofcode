@@ -1,11 +1,11 @@
-use adventofcode::day1::{part1, part2};
+use adventofcode::day1;
 
 #[test]
-fn test_part1() {
-    assert_eq!(Ok(138), part1());
+fn part1() {
+    assert_eq!(Ok(138), day1::part1());
 }
 
 #[test]
-fn test_part2() {
-    assert_eq!(Ok(1771), part2());
+fn part2() {
+    assert_eq!(Ok(1771), day1::part2());
 }
