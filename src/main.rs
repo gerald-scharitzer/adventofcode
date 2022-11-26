@@ -1,8 +1,12 @@
-use adventofcode::day1::{part1, part2};
+use adventofcode::{day1, day2};
 
 fn main() {
     println!("Advent of Code");
-	for part in [part1, part2] {
+	let parts = [
+		day1::part1, day1::part2,
+		day2::solve
+	];
+	for part in parts {
 		match part() {
 			Err(message) => println!("Error: {message}"),
 			_ => {}

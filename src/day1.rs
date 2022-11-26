@@ -29,7 +29,6 @@ pub fn part1() -> Result<i32, String> {
 }
 
 pub fn part2() -> Result<i32, String> {
-	println!("Part Two");
 	let file = File::open("day1.in").expect("open input failed");
 	let mut reader = BufReader::new(file);
 	let mut line = String::new();
