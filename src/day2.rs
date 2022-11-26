@@ -12,31 +12,57 @@ pub fn part1() -> Result<i32, String> {
 	let file = File::open("day2.in").expect("open input failed"); // TODO derive file name from module name
 	let mut reader = BufReader::new(file);
 	let mut line = String::new();
-	// let length: i32;
-	// let width: i32;
-	// let height: i32;
-	// let surface = 2 * (length*width + width*height + length*height);
-	// let slack;
-	// let area = surface + slack;
-	let area: i32 = 0;
+	let mut length = 0;
+	let mut width = 0;
+	let mut height = 0;
+	
+	// FIXME iterate over lines
 	reader.read_line(&mut line).expect("read line failed");
-	let chars = line.chars();
-	let mut result = Ok(0);
+	if line.ends_with('\n') {
+		line = line.trim_end().to_string();
+	}
 
-	for char in chars {
-		match char {
-			'0'..='9' => {},
-			'x' => {},
-			'\n' => {},
-			_ => { result = Err(format!("invalid character")); break }
+	let dimensions = line.split('x');
+	let mut x = 0;
+	let mut slack = 0;
+
+	for dimension in dimensions {
+		x += 1;
+		if x > 3 {
+			return Err("number of dimensions must be 3".into());
+		}
+		let result = dimension.parse::<i32>();
+		let dim;
+		
+		match result {
+			Ok(value) => dim = value,
+			_ => return Err(format!("dimension must be an integer but was {dimension}"))
+		}
+		
+		match x {
+			1 => length = dim,
+			2 => width = dim,
+			3 => height = dim,
+			_ => {}
+		}
+
+		if x == 1 {
+			slack = dim;
+		} else {
+			if dim < slack {
+				slack = dim;
+			}
 		}
 	}
 
+	if x != 3 {
+		return Err(format!("number of dimensions must be 3 but was {x}"));
+	}
+
+	let surface = 2 * (length*width + width*height + length*height);
+	let area = surface + slack;
 	println!("area {area}");
-    match result {
-        Ok(_) => Ok(area),
-        _ => result
-    }
+	Ok(area)
 }
 
 pub fn part2() -> Result<i32, String> {

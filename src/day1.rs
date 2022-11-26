@@ -15,21 +15,17 @@ pub fn part1() -> Result<i32, String> {
 	let mut floor: i32 = 0;
 	reader.read_line(&mut line).expect("read line failed");
 	let chars = line.chars();
-	let mut result = Ok(0);
 
-	for char in chars {
-		match char {
+	for c in chars {
+		match c {
 			'(' => floor += 1,
 			')' => floor -= 1,
-			_ => { result = Err(format!("invalid character")); break }
+			_ => return Err(format!("invalid character: {c}"))
 		}
 	}
 
 	println!("floor {floor}");
-    match result {
-        Ok(_) => Ok(floor),
-        _ => result
-    }
+    Ok(floor)
 }
 
 pub fn part2() -> Result<i32, String> {
@@ -38,27 +34,25 @@ pub fn part2() -> Result<i32, String> {
 	let mut reader = BufReader::new(file);
 	let mut line = String::new();
 	let mut floor: i32 = 0;
-	reader.read_line(&mut line).expect("read line failed");
-	let chars = line.chars();
-	let mut result = Ok(0);
 	let mut basement = false;
 	let mut position: i32 = 0;
-	for char in chars {
+	reader.read_line(&mut line).expect("read line failed");
+	let chars = line.chars();
+
+	for c in chars {
 		if !basement {
 			position += 1;
 		}
-		match char {
+		match c {
 			'(' => floor += 1,
 			')' => floor -= 1,
-			_ => { result = Err(format!("invalid character")); break }
+			_ => return Err(format!("invalid character: {c}"))
 		}
 		if floor == -1 {
 			basement = true;
 		}
 	}
+	
 	println!("position {position}");
-    match result {
-        Ok(_) => Ok(position),
-        _ => result
-    }
+    Ok(position)
 }
