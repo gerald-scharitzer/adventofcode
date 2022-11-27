@@ -2,12 +2,11 @@ use adventofcode::{day1, day2};
 
 fn main() {
     println!("Advent of Code");
-	let parts = [
-		day1::part1, day1::part2,
-		day2::solve
+	let puzzles = [
+		day1::solve, day2::solve
 	];
-	for part in parts {
-		match part() {
+	for puzzle in puzzles {
+		match puzzle() {
 			Err(message) => println!("Error: {message}"),
 			_ => {}
 		}

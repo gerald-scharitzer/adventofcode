@@ -4,7 +4,7 @@ use std::io::{BufRead, BufReader};
 
 use super::Puzzle;
 
-pub fn solve() -> Result<i32, String> {
+pub fn solve() -> Result<(i32, i32), String> {
 	let puzzle = Puzzle::new(2015, 2, "I Was Told There Would Be No Math");
 	let year = puzzle.get_year();
 	let day = puzzle.get_day();
@@ -22,7 +22,7 @@ pub fn solve() -> Result<i32, String> {
 		let line;
 		match line_result {
 			Ok(string) => line = string,
-			Err(error) => return Err("read line failed".into())
+			Err(error) => return Err(format!("read line failed: {error}"))
 		}
 
 		let dimensions = line.split('x');
@@ -86,5 +86,5 @@ pub fn solve() -> Result<i32, String> {
 
 	println!("paper {paper}");
 	println!("ribbon {ribbon}");
-	Ok(paper)
+	Ok((paper, ribbon))
 }
