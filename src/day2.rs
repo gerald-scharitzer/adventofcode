@@ -15,7 +15,8 @@ pub fn solve() -> Result<i32, String> {
 	let mut length = 0;
 	let mut width = 0;
 	let mut height = 0;
-	let mut area = 0;
+	let mut paper = 0;
+	let mut ribbon = 0;
 	
 	for line_result in reader.lines() {
 		let line;
@@ -52,15 +53,38 @@ pub fn solve() -> Result<i32, String> {
 			return Err(format!("number of dimensions must be 3 but was {x}"));
 		}
 
+		// part 1
 		let bottom = length * width;
 		let front = length * height;
 		let side = width * height;
 		let surface = 2 * (bottom + front + side);
 		let mut slack = min(bottom, front);
 		slack = min(slack, side);
-		area += surface + slack;
+		paper += surface + slack;
+
+		// part 2
+		let side1;
+		let side2;
+		if length < width {
+			side1 = length;
+			if width < height {
+				side2 = width;
+			} else {
+				side2 = height;
+			}
+		} else {
+			side1 = width;
+			if length < height {
+				side2 = length;
+			} else {
+				side2 = height;
+			}
+		}
+		let volume = length * width * height;
+		ribbon += 2 * (side1 + side2) + volume;
 	}
 
-	println!("paper {area}");
-	Ok(area)
+	println!("paper {paper}");
+	println!("ribbon {ribbon}");
+	Ok(paper)
 }
