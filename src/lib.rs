@@ -1,18 +1,10 @@
 pub mod day1;
 pub mod day2;
 
-pub struct Puzzle<'a> {
-    year: i32,
-    day: i32,
-    name: &'a str
-}
-
-impl<'a> Puzzle<'a> {
-    pub fn new(year: i32, day: i32, name: &'a str) -> Puzzle<'a> {
-        Puzzle { year, day, name }
-    }
-
-    pub fn get_year(&self) -> i32 { self.year }
-    pub fn get_day(&self) -> i32 { self.day }
-    pub fn get_name(&self) -> &str { self.name }
+pub trait Puzzle<'a> {
+    fn new() -> Self;
+    fn get_year(&self) -> i32;
+    fn get_day(&self) -> i32;
+    fn get_name(&self) -> &'a str;
+    fn solve(&self) -> Result<(i32, i32), String>;
 }

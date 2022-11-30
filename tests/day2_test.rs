@@ -1,6 +1,8 @@
-use adventofcode::day2::solve;
+use adventofcode::Puzzle;
+use adventofcode::day2::Day2;
 
 #[test]
 fn test() {
-	assert_eq!(Ok((1606483, 3842356)), solve());
+	let day = Day2::new();
+	assert_eq!(Ok((1606483, 3842356)), day.solve());
 }
