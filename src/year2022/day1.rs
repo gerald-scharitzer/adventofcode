@@ -20,6 +20,9 @@ impl<'a> Puzzle<'a> for Day1 {
 		let reader = BufReader::new(file);
 		let mut food = 0;
 		let mut elf = 0;
+		let mut elf1 = 0;
+		let mut elf2 = 0;
+		let mut elf3 = 0;
 
 		for line_result in reader.lines() {
 			let line;
@@ -29,7 +32,22 @@ impl<'a> Puzzle<'a> for Day1 {
 			}
 
 			if line.is_empty() {
+				// part 1
 				food = max(food, elf);
+				// part 2
+				if elf1 < elf2 {
+					if elf1 < elf3 {
+						elf1 = max(elf1, elf);
+					} else {
+						elf3 = max(elf3, elf);
+					}
+				} else {
+					if elf2 < elf3 {
+						elf2 = max(elf2, elf);
+					} else {
+						elf3 = max(elf3, elf);
+					}
+				}
 				elf = 0;
 			} else {
 				let parse_result = line.parse::<i32>();
@@ -41,6 +59,8 @@ impl<'a> Puzzle<'a> for Day1 {
 		}
 		
 		println!("food {food}");
-		Ok((food, 0))
+		let top3 = elf1 + elf2 + elf3;
+		println!("top3 {top3}");
+		Ok((food, top3))
 	}
 }
