@@ -1,6 +1,6 @@
 use adventofcode::Puzzle;
-use adventofcode::day1::Day1;
-use adventofcode::day2::Day2;
+use adventofcode::year2015::day1::Day1;
+use adventofcode::year2015::day2::Day2;
 
 fn main() {
     println!("Advent of Code");

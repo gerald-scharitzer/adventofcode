@@ -2,7 +2,7 @@ use std::cmp::min;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
-use super::Puzzle;
+use super::super::Puzzle;
 
 pub struct Day2 {}
 

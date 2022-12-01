@@ -1,5 +1,5 @@
 use adventofcode::Puzzle;
-use adventofcode::day2::Day2;
+use adventofcode::year2015::day2::Day2;
 
 #[test]
 fn test() {
