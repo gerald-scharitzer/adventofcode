@@ -17,7 +17,8 @@ impl<'a> Puzzle<'a> for Day2 {
 		println!("Year {year} Day {day}: {name}");
 		let file = File::open("2022/day2.in").expect("open input failed");
 		let reader = BufReader::new(file);
-		let mut score = 0;
+		let mut shape_score = 0;
+		let mut outcome_score = 0;
 
 		const ELF_ROCK: char = 'A';
 		const YOU_ROCK: char = 'X';
@@ -25,6 +26,9 @@ impl<'a> Puzzle<'a> for Day2 {
 		const YOU_PAPER: char = 'Y';
 		const ELF_SCISSORS: char = 'C';
 		const YOU_SCISSORS: char = 'Z';
+		const ROCK: i32 = 1;
+		const PAPER: i32 = 2;
+		const SCISSORS: i32 = 3;
 		const DRAW: i32 = 3;
 		const WIN: i32 = 6;
 		
@@ -36,11 +40,8 @@ impl<'a> Puzzle<'a> for Day2 {
 			}
 
 			let mut elf_rock = false;
-			let mut you_rock = false;
 			let mut elf_paper = false;
-			let mut you_paper = false;
 			let mut elf_scissors = false;
-			let mut you_scissors = false;
 		
 			// elf
 			let mut chars = line.chars();
@@ -61,39 +62,62 @@ impl<'a> Puzzle<'a> for Day2 {
 			// you
 			c = chars.next().unwrap();
 			match c {
-				YOU_ROCK => {
-					you_rock = true;
-					score += 1;
+				YOU_ROCK => { // part 2 you lose
+					shape_score += ROCK;
 					if elf_rock {
-						score += DRAW;
-					} else if elf_scissors {
-						score += WIN;
-					} // else you lose and do not score
-				},
-				YOU_PAPER => {
-					you_paper = true;
-					score += 2;
-					if elf_rock {
-						score += WIN;
+						shape_score += DRAW;
+						// part 2 scissors
+						outcome_score += SCISSORS;
 					} else if elf_paper {
-						score += DRAW;
-					} // else you lose and do not score
+						// part 1 you lose and do not score
+						// part 2 rock
+						outcome_score += ROCK;
+					} else {
+						shape_score += WIN;
+						// part 2 paper
+						outcome_score += PAPER;
+					}
 				},
-				YOU_SCISSORS => {
-					you_scissors = true;
-					score += 3;
-					if elf_paper {
-						score += WIN;
+				YOU_PAPER => { // part 2 draw
+					shape_score += PAPER;
+					outcome_score += DRAW;
+					if elf_rock {
+						shape_score += WIN;
+						// part 2 rock
+						outcome_score += ROCK;
+					} else if elf_paper {
+						shape_score += DRAW;
+						// part 2 paper
+						outcome_score += PAPER;
+					} else {
+						// part 1 you lose and do not score
+						// part 2 scissors
+						outcome_score += SCISSORS;
+					}
+				},
+				YOU_SCISSORS => { // part 2 you win
+					shape_score += SCISSORS;
+					outcome_score += WIN;
+					if elf_rock {
+						// part 1 you lose and do not score
+						// part 2 paper
+						outcome_score += PAPER;
+					} else if elf_paper {
+						shape_score += WIN;
+						// part 2 scissors
+						outcome_score += SCISSORS;
 					} else if elf_scissors {
-						score += DRAW;
-					} // else you lose and do not score
+						shape_score += DRAW;
+						// part 2 rock
+						outcome_score += ROCK;
+					}
 				},
 				_ => return Err(format!("character must be [XYZ] but was {c}"))
 			}
-
 		}
 		
-		println!("score {score}");
-		Ok((score, 0))
+		println!("shape score {shape_score}");
+		println!("outcome score {outcome_score}");
+		Ok((shape_score, outcome_score))
 	}
 }
