@@ -12,7 +12,7 @@ impl<'a> Puzzle<'a> for Day3 {
 	fn get_year(&self) -> i32 { 2022 }
 	fn get_day(&self) -> i32 { 3 }
 	fn get_name(&self) -> &'a str { "Rucksack Reorganization" }
-	fn get_answer_names(&self) -> (&'a str, &'a str) { ("item", "badge") }
+	fn get_answer_names(&self) -> (&'a str, &'a str) { ("priority", "badge") }
 	fn solve(&self) -> Result<(i32, i32), String> {
 		let year = self.get_year();
 		let day = self.get_day();
