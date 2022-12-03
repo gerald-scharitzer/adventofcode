@@ -73,6 +73,9 @@ impl<'a> Puzzle<'a> for Day3 {
 			('Y', 51),
 			('Z', 52)
 		]);
+		let mut items0: HashSet<char> = HashSet::with_capacity(16);
+		let mut items1: HashSet<char> = HashSet::with_capacity(16);
+		let mut elf = 0;
 		let mut priority_sum = 0;
 		let mut badge_priority = 0;
 
@@ -86,7 +89,8 @@ impl<'a> Puzzle<'a> for Day3 {
 			let compartment_size = line.len() / 2;
 			let mut compartment: HashSet<char> = HashSet::with_capacity(compartment_size);
 			let mut count = 0;
-			let mut both_found = false;
+			let mut found2 = false;
+			let mut found3 = false;
 
 			let chars = line.chars();
 			for c in chars {
@@ -96,21 +100,57 @@ impl<'a> Puzzle<'a> for Day3 {
 						if count < compartment_size { // compartment 1
 							count += 1;
 							compartment.insert(c);
-						} else if !both_found { // compartment 2
+						} else if !found2 { // compartment 2
 							if compartment.contains(&c) {
-								both_found = true;
+								found2 = true;
 								priority_sum += priority_map.get(&c).unwrap();
 							}
+						}
+
+						// part 2
+						match elf {
+							0 => {
+								items0.insert(c);
+							},
+							1 => {
+								if items0.contains(&c) {
+									items1.insert(c);
+								}
+							},
+							2 => {
+								if !found3 {
+									if items1.contains(&c) {
+										found3 = true;
+										badge_priority += priority_map.get(&c).unwrap();
+									}
+								}
+							},
+							_ => return Err(format!("expected [012] but got {elf}"))
 						}
 					},
 					_ => return Err(format!("expected [a-zA-Z] but got '{c}'"))
 				}
 			}
 
+			// part 2
+			match elf {
+				0 => {
+					elf = 1;
+				},
+				1 => {
+					items0.clear();
+					elf = 2;
+				},
+				2 => {
+					items1.clear();
+					elf = 0;
+				},
+				_ => return Err(format!("expected [012] but got {elf}"))
+			}
 		}
 		
 		println!("priority sum {priority_sum}");
-		println!("outcome score {badge_priority}");
+		println!("badge priority {badge_priority}");
 		Ok((priority_sum, badge_priority))
 	}
 }
