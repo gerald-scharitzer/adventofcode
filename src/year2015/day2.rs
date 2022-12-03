@@ -11,6 +11,7 @@ impl<'a> Puzzle<'a> for Day2 {
 	fn get_year(&self) -> i32 { 2015 }
 	fn get_day(&self) -> i32 { 2 }
 	fn get_name(&self) -> &'a str { "I Was Told There Would Be No Math" }
+	fn get_answer_names(&self) -> (&'a str, &'a str) { ("paper", "ribbon") }
 	fn solve(&self) -> Result<(i32, i32), String> {
 		let year = self.get_year();
 		let day = self.get_day();
@@ -89,9 +90,6 @@ impl<'a> Puzzle<'a> for Day2 {
 			let volume = length * width * height;
 			ribbon += 2 * (side1 + side2) + volume;
 		}
-
-		println!("paper {paper}");
-		println!("ribbon {ribbon}");
 		Ok((paper, ribbon))
 	}
 }

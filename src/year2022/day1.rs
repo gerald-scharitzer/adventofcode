@@ -11,6 +11,7 @@ impl<'a> Puzzle<'a> for Day1 {
 	fn get_year(&self) -> i32 { 2022 }
 	fn get_day(&self) -> i32 { 1 }
 	fn get_name(&self) -> &'a str { "Calorie Counting" }
+	fn get_answer_names(&self) -> (&'a str, &'a str) { ("food", "top3") }
 	fn solve(&self) -> Result<(i32, i32), String> {
 		let year = self.get_year();
 		let day = self.get_day();
@@ -58,9 +59,7 @@ impl<'a> Puzzle<'a> for Day1 {
 			}
 		}
 		
-		println!("food {food}");
 		let top3 = elf1 + elf2 + elf3;
-		println!("top3 {top3}");
 		Ok((food, top3))
 	}
 }

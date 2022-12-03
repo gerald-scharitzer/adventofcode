@@ -10,6 +10,7 @@ impl<'a> Puzzle<'a> for Day1 {
 	fn get_year(&self) -> i32 { 2015 }
 	fn get_day(&self) -> i32 { 1 }
 	fn get_name(&self) -> &'a str { "Not Quite Lisp" }
+	fn get_answer_names(&self) -> (&'a str, &'a str) { ("floor", "position") }
 	fn solve(&self) -> Result<(i32, i32), String> {
 		let year = self.get_year();
 		let day = self.get_day();
@@ -37,9 +38,6 @@ impl<'a> Puzzle<'a> for Day1 {
 				basement = true;
 			}
 		}
-		
-		println!("floor {floor}");
-		println!("position {position}");
 		Ok((floor, position))
 	}
 }

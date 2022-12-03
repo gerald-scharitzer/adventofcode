@@ -10,6 +10,7 @@ impl<'a> Puzzle<'a> for Day2 {
 	fn get_year(&self) -> i32 { 2022 }
 	fn get_day(&self) -> i32 { 2 }
 	fn get_name(&self) -> &'a str { "Rock Paper Scissors" }
+	fn get_answer_names(&self) -> (&'a str, &'a str) { ("shape", "outcome") }
 	fn solve(&self) -> Result<(i32, i32), String> {
 		let year = self.get_year();
 		let day = self.get_day();
@@ -115,9 +116,6 @@ impl<'a> Puzzle<'a> for Day2 {
 				_ => return Err(format!("character must be [XYZ] but was {c}"))
 			}
 		}
-		
-		println!("shape score {shape_score}");
-		println!("outcome score {outcome_score}");
 		Ok((shape_score, outcome_score))
 	}
 }
