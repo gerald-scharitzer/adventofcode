@@ -1,24 +1,29 @@
 use adventofcode::Puzzle;
-use adventofcode::year2022::{Day1, Day2, Day3};
+use adventofcode::year2022::{Day1, Day2, Day3, Day4};
 
 fn main() {
     println!("Advent of Code");
 	// TODO print answer names
 	// TODO let puzzles: Vec<dyn Puzzle> = vec![Day1::new(), Day2::new()];
 	// TODO for puzzle in puzzles {
-	let day1 = Day1::new();
-	let mut names = day1.get_answer_names();
-	let mut result = day1.solve();
+	let day = Day1::new();
+	let mut names = day.get_answer_names();
+	let mut result = day.solve();
 	print_answers(names, result);
 
-	let day2 = Day2::new();
-	names = day2.get_answer_names();
-	result = day2.solve();
+	let day = Day2::new();
+	names = day.get_answer_names();
+	result = day.solve();
 	print_answers(names, result);
 
-	let day3 = Day3::new();
-	names = day3.get_answer_names();
-	result = day3.solve();
+	let day = Day3::new();
+	names = day.get_answer_names();
+	result = day.solve();
+	print_answers(names, result);
+
+	let day = Day4::new();
+	names = day.get_answer_names();
+	result = day.solve();
 	print_answers(names, result);
 	//}
 }
