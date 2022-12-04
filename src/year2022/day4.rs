@@ -10,7 +10,7 @@ impl<'a> Puzzle<'a> for Day4 {
 	fn get_year(&self) -> i32 { 2022 }
 	fn get_day(&self) -> i32 { 4 }
 	fn get_name(&self) -> &'a str { "Camp Cleanup" }
-	fn get_answer_names(&self) -> (&'a str, &'a str) { ("pairs", "") }
+	fn get_answer_names(&self) -> (&'a str, &'a str) { ("contain", "overlap") }
 	fn solve(&self) -> Result<(i32, i32), String> {
 		let year = self.get_year();
 		let day = self.get_day();
@@ -18,8 +18,8 @@ impl<'a> Puzzle<'a> for Day4 {
 		println!("Year {year} Day {day}: {name}");
 		let file = File::open("2022/day4.in").expect("open input failed"); // TODO derive file name from module name
 		let reader = BufReader::new(file);
-		let mut pairs = 0;
-		let mut ribbon = 0;
+		let mut contain = 0;
+		let mut overlap = 0;
 		
 		for line_result in reader.lines() {
 			let line;
@@ -69,16 +69,21 @@ impl<'a> Puzzle<'a> for Day4 {
 
 			if lower1 < lower2 {
 				if upper1 >= upper2 {
-					pairs += 1;
+					contain += 1;
+				} else if upper1 >= lower2 {
+					overlap += 1;
 				}
 			} else if lower1 > lower2 {
 				if upper1 <= upper2 {
-					pairs += 1;
+					contain += 1;
+				} else if lower1 <= upper2 {
+					overlap += 1;
 				}
 			} else { // equal
-				pairs += 1;
+				contain += 1;
 			}
 		}
-		Ok((pairs, ribbon))
+		overlap += contain;
+		Ok((contain, overlap))
 	}
 }
