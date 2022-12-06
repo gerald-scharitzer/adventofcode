@@ -11,7 +11,7 @@ impl<'a> /*Puzzle<'a> for*/ Day5 {
 	pub fn get_year(&self) -> i32 { 2022 }
 	pub fn get_day(&self) -> i32 { 5 }
 	pub fn get_name(&self) -> &'a str { "Supply Stacks" }
-	pub fn get_answer_names(&self) -> (&'a str, &'a str) { ("crates", "") }
+	pub fn get_answer_names(&self) -> (&'a str, &'a str) { ("CrateMover 9000", "CrateMover 9001") }
 	pub fn solve(&self) -> Result<(String, String), String> {
 		let year = self.get_year();
 		let day = self.get_day();
@@ -19,10 +19,11 @@ impl<'a> /*Puzzle<'a> for*/ Day5 {
 		println!("Year {year} Day {day}: {name}");
 		let file = File::open("2022/day5.in").expect("open input failed"); // TODO derive file name from module name
 		let reader = BufReader::new(file);
-		let mut stacks: Vec<Vec<char>> = Vec::with_capacity(10);
+		let mut stacks0: Vec<Vec<char>> = Vec::with_capacity(10);
+		let mut stacks1: Vec<Vec<char>> = Vec::with_capacity(10);
 		let mut stack_count = 0;
+		let mut crates0 =  "".to_string();
 		let mut crates1 =  "".to_string();
-		let mut crates2 =  "".to_string();
 		let mut moves = false;
 		let mut is_crate = false;
 		
@@ -34,12 +35,15 @@ impl<'a> /*Puzzle<'a> for*/ Day5 {
 			}
 
 			if !moves { // stacks
-				if line.is_empty() { // reverse stacks
+				if line.is_empty() {
+					// part1 reverse stacks
 					moves = true;
-					for crates in &mut stacks {
+					for crates in &mut stacks0 {
 						crates.reverse();
 					}
-					stack_count = stacks.len();
+					stack_count = stacks0.len();
+					// part2 copy stacks
+					stacks1.clone_from(&stacks0);
 				} else { // get crates
 					let mut x = 0;
 					let mut column = 0;
@@ -57,11 +61,11 @@ impl<'a> /*Puzzle<'a> for*/ Day5 {
 								if is_crate {
 									match c {
 										'A'..='Z' => {
-											while stacks.len() <= column {
+											while stacks0.len() <= column {
 												let crates: Vec<char> = Vec::new();
-												stacks.push(crates);
+												stacks0.push(crates);
 											}
-											stacks[column].push(c);
+											stacks0[column].push(c);
 										},
 										_ => return Err(format!("expected capital letter but got {c}"))
 									}
@@ -147,24 +151,39 @@ impl<'a> /*Puzzle<'a> for*/ Day5 {
 
 				source -= 1;
 				target -= 1;
+				let crate_range = (stacks1[source].len() - count)..;
 				while count > 0 {
-					let top = stacks[source].pop();
+					let top = stacks0[source].pop();
 					match top {
-						Some(c) => stacks[target].push(c),
+						Some(c) => stacks0[target].push(c),
 						_ => return Err(format!("pop stack {source} failed"))
 					}
 					count -= 1;
 				}
+				// part2
+				let mover = stacks1[source].drain(crate_range);
+				let mut crates_move = mover.collect::<Vec<char>>();
+				stacks1[target].append(&mut crates_move);
 			}
 		}
 
-		for mut stack in stacks {
+		// part1
+		for mut stack in stacks0 {
+			let top = stack.pop();
+			match top {
+				Some(c) => crates0.push(c),
+				_ => {}
+			}
+		}
+
+		// part2
+		for mut stack in stacks1 {
 			let top = stack.pop();
 			match top {
 				Some(c) => crates1.push(c),
 				_ => {}
 			}
 		}
-		Ok((crates1, crates2))
+		Ok((crates0, crates1))
 	}
 }
