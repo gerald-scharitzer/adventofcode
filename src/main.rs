@@ -1,5 +1,5 @@
 use adventofcode::Puzzle;
-use adventofcode::year2022::{Day1, Day2, Day3, Day4, Day5};
+use adventofcode::year2022::{Day1, Day2, Day3, Day4, Day5, Day6};
 
 fn main() {
     println!("Advent of Code");
@@ -30,6 +30,11 @@ fn main() {
 	names = day.get_answer_names();
 	let string_result = day.solve();
 	print_answer_strings(names, string_result);
+
+	let day = Day6::new();
+	names = day.get_answer_names();
+	result = day.solve();
+	print_answers(names, result);
 	//}
 }
 
