@@ -11,7 +11,7 @@ impl<'a> Puzzle<'a> for Day6 {
 	fn get_year(&self) -> i32 { 2022 }
 	fn get_day(&self) -> i32 { 6 }
 	fn get_name(&self) -> &'a str { "Tuning Trouble" }
-	fn get_answer_names(&self) -> (&'a str, &'a str) { ("length", "") }
+	fn get_answer_names(&self) -> (&'a str, &'a str) { ("packet", "message") }
 	fn solve(&self) -> Result<(i32, i32), String> {
 		let year = self.get_year();
 		let day = self.get_day();
@@ -20,12 +20,12 @@ impl<'a> Puzzle<'a> for Day6 {
 		let file = File::open("2022/day6.in").expect("open input failed");
 		let mut reader = BufReader::new(file);
 		let mut line = String::new();
-		const MARKER_LENGTH: usize = 4;
+		const MARKER_LENGTH: usize = 14; // TODO different packet and message marker lengths
 		let mut length: usize = 0;
 		let mut position: i32 = 0;
 		reader.read_line(&mut line).expect("read line failed");
 		let chars = line.chars();
-		let mut deque: VecDeque<char> = VecDeque::with_capacity(MARKER_LENGTH-1);
+		let mut deque: VecDeque<char> = VecDeque::with_capacity(MARKER_LENGTH-1); // TODO hashmap or int array instead
 
 		for c in chars {
 			if c == '\n' {
