@@ -2,7 +2,7 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::vec::Vec;
 
-use super::super::Puzzle;
+// FIXME use super::super::Puzzle;
 
 pub struct Day5 {}
 

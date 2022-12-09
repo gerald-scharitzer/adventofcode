@@ -20,9 +20,8 @@ impl<'a> Puzzle<'a> for Day6 {
 		let file = File::open("2022/day6.in").expect("open input failed");
 		let mut reader = BufReader::new(file);
 		let mut line = String::new();
-		const MARKER_LENGTH: usize = 14; // TODO different packet and message marker lengths
+		const MARKER_LENGTH: usize = 4; // TODO different packet and message marker lengths
 		let mut length: usize = 0;
-		let mut position: i32 = 0;
 		reader.read_line(&mut line).expect("read line failed");
 		let chars = line.chars();
 		let mut deque: VecDeque<char> = VecDeque::with_capacity(MARKER_LENGTH-1); // TODO hashmap or int array instead
@@ -56,6 +55,6 @@ impl<'a> Puzzle<'a> for Day6 {
 		}
 
 		let length = length.try_into().unwrap();
-		Ok((length, position))
+		Ok((length, length))
 	}
 }
