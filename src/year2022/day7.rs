@@ -19,15 +19,14 @@ impl<'a> Puzzle<'a> for Day7 {
 	fn get_year(&self) -> i32 { 2022 }
 	fn get_day(&self) -> i32 { 7 }
 	fn get_name(&self) -> &'a str { "No Space Left On Device" }
-	fn get_answer_names(&self) -> (&'a str, &'a str) { ("size", "") }
+	fn get_answer_names(&self) -> (&'a str, &'a str) { ("FIXME size", "") } // FIXME
 	fn solve(&self) -> Result<(i32, i32), String> {
 		let year = self.get_year();
 		let day = self.get_day();
 		let name = self.get_name();
 		println!("Year {year} Day {day}: {name}");
 		let file = File::open("2022/day7test.in").expect("open input failed");
-		let mut reader = BufReader::new(file);
-		let mut line = String::new();
+		let reader = BufReader::new(file);
 		let mut file_system: Vec<Entry> = Vec::with_capacity(16);
 		let mut root = Entry::Directory {
 			parent: 0,
@@ -35,7 +34,7 @@ impl<'a> Puzzle<'a> for Day7 {
 		};
 		file_system.push(root);
 		let mut workdir: usize = 0;
-		let mut total_size = 0;
+		let mut total_size: usize = 0;
 		let mut position = 0;
 		for line_result in reader.lines() {
 			let line;
@@ -100,7 +99,26 @@ impl<'a> Puzzle<'a> for Day7 {
 			}
 		}
 
+		get_size(&file_system, 0, &mut total_size);
+
 		let total_size = total_size.try_into().unwrap();
 		Ok((total_size, position))
+	}
+}
+
+fn get_size(file_system: &Vec<Entry>, node: usize, total_size: &mut usize) -> usize {
+	let entry = &file_system[node];
+	match entry {
+		Entry::Directory { parent, entries } => {
+			let mut dirsize = 0;
+			for child_node in entries {
+				dirsize += get_size(file_system, *child_node, total_size);
+			}
+			if dirsize <= 100000 {
+				*total_size += dirsize;
+			}
+			dirsize
+		},
+		Entry::File { size } => *size
 	}
 }
